@@ -106,6 +106,8 @@ class Tree {
         }
     }
     
+    // *** FUNCTIONS *** 
+    
     //------* INSERT *------
     //wrapper function Insert
     func Insert (value: Int) {
