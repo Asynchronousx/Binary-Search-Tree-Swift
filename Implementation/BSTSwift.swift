@@ -1,3 +1,9 @@
+/*********************************************
+*                                            *
+*                Asynchronousx               *
+*                - BST Swift -               *
+*                                            *
+**********************************************/
 
 //: Playground - noun: a place where people can play
 import UIKit
@@ -34,17 +40,15 @@ class TreeNode {
         }
     }
     
-    //nodecount incrementer
+    //nodecount 
     var _nodeCount: Int {
         get {
             return nodeCount
         }
-        set (incrementCount) { //incrementing node count value by 1
+        set (incrementCount) { 
             nodeCount = incrementCount
         }
     }
-    
-    
     
     //leftChild
     var _leftChild: TreeNode? {
@@ -105,8 +109,7 @@ class Tree {
     //------* INSERT *------
     //wrapper function Insert
     func Insert (value: Int) {
-        //if the tree doesn't have a root
-        if _Tree == nil {
+        if _Tree == nil { //if the tree doesn't have a root
             let newRoot: TreeNode? = TreeNode(nodeValue: value, isRoot: true) //create a new root
             _Tree = newRoot //assign the new root as root
         }
@@ -119,7 +122,6 @@ class Tree {
     private func insertNode (_ valueToInsert: Int, treeNode: TreeNode?) -> Void {
         //three cases: root > value, root < value, root = value
         
-        
         //FIRST CASE
         if valueToInsert > (treeNode?._nodeValue)! { //current node value < value
             if treeNode?._rightChild == nil { //else value != and next is null
@@ -128,7 +130,8 @@ class Tree {
             } else { //else go deeper
                 insertNode(valueToInsert, treeNode: treeNode?._rightChild) //call the recursive insert
             }
-        } //SECOND CASE
+        } 
+        //SECOND CASE
         else if valueToInsert < (treeNode?._nodeValue)! { //current node value > value
             if treeNode?._leftChild == nil { //if next is null
                 treeNode?._leftChild = TreeNode(nodeValue: valueToInsert) //create the node
@@ -136,7 +139,8 @@ class Tree {
             } else { // else go deeper
                 insertNode(valueToInsert, treeNode: treeNode?._leftChild) //call the recursive insert
             }
-        } //THIRD CASE
+        } 
+        //THIRD CASE
         else if valueToInsert == (treeNode?._nodeValue)! { //else value = treeNode value
             treeNode?._nodeCount = (treeNode?._nodeCount)! + 1 //increment the counter by one
         }
@@ -162,21 +166,25 @@ class Tree {
         //three cases: node is nil,  treeNode value > value, treeNode value < value
         //base case: the node value == value
         
+        //FIRST CASE
         if valueToSearch > (treeNode?._nodeValue)! { // value > node value?
             if treeNode?._rightChild != nil { //if possible
                 return searchNode(valueToSearch, treeNode: treeNode?._rightChild) //search the right subtree
             }
         }
+        //SECOND CASE
         else if valueToSearch < (treeNode?._nodeValue)! { //value < node value?
             if treeNode?._leftChild != nil { //if possible
                 return searchNode(valueToSearch, treeNode: treeNode?._leftChild) // search the left subtree
             }
         }
+        //THIRD CASE
         else { //node value == value
             return true //return found
         }
         
-        return false
+        
+        return false //value not found
         
     }
     
@@ -188,7 +196,7 @@ class Tree {
            return
         }
         else if (_Tree?._nodeValue)! == value { //value is the tree root
-            _Tree = nil //need a recursive delete func: because setting tree to nil doesnt set nil to all the other node
+            _Tree = nil //set the root nil
         }
         else { //else go search it
             deleteNode(value, treeNode: _Tree)
@@ -224,6 +232,11 @@ class Tree {
         //so we need to make all the assumption of the cases, find which
         //subtree a node belong to and make all the connections/disconnection
         //of the nodes.
+        //We got 4 Cases:
+        //1. Node is leaf.
+        //2. Node got both children.
+        //3. Node got only Left children.
+        //4. Node got only Right children.
         
         //FIRST CASE
         if treeNode?._leftChild == nil, treeNode?._rightChild == nil { //node is leaf
@@ -368,3 +381,28 @@ class Tree {
     }
     
 } //end tree class
+
+//Function to generate a random tree:
+func randomTreeGenerator (nodeNumber: Int, maxNodeValue: Int) -> Tree {
+    
+    //Generate the tree:
+    let MyTree = Tree()
+    
+    //generate the nodes
+    for _ in 0..<nodeNumber {
+        MyTree.Insert(value: (Int(arc4random_uniform(UInt32(maxNodeValue)))))
+    }
+    
+    //return the tree
+    return MyTree
+}
+
+//Execution sample:
+/*
+var MyTree = Tree() 
+    OR 
+var MyTree = randomTreeGenerator(nodeNumber: 16, maxNodeValue: 100 // with this we generate 16 node with a max value of 100.
+
+do whatever: Insert, Search, Delete, Print.
+
+*/
